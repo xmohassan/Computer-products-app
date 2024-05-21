@@ -1,16 +1,23 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
 import 'package:computer_products_app/model/products.dart';
+import 'package:computer_products_app/pages/checkOut.dart';
 import 'package:computer_products_app/pages/detailsScreen.dart';
-import 'package:computer_products_app/pages/login.dart';
+import 'package:computer_products_app/pages/profilePage.dart';
 import 'package:computer_products_app/provider/cart.dart';
+import 'package:computer_products_app/shared/appBar.dart';
 import 'package:computer_products_app/shared/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
+  const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
+    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       body: Container(
         color: bluee,
@@ -49,19 +56,16 @@ class Home extends StatelessWidget {
                       ],
                     ),
                     footer: GridTileBar(
-                      trailing:
-                          Consumer<Cart>(builder: ((context, cart, child) {
-                        return IconButton(
-                          padding: EdgeInsets.only(bottom: 0, left: 5),
-                          color: bTNgreen,
-                          onPressed: () {
-                            cart.add(items[index]);
-                          },
-                          icon: Icon(
-                            Icons.add_circle,
-                          ),
-                        );
-                      })),
+                      trailing: IconButton(
+                        padding: EdgeInsets.only(bottom: 0, left: 5),
+                        color: bTNgreen,
+                        onPressed: () {
+                          cart.add(items[index]);
+                        },
+                        icon: Icon(
+                          Icons.add_circle,
+                        ),
+                      ),
                       leading: Text(
                         "\$${items[index].price}",
                         style: TextStyle(color: bTNBlue, fontSize: 15),
@@ -82,7 +86,7 @@ class Home extends StatelessWidget {
                 UserAccountsDrawerHeader(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/image/cover.webp"),
+                      image: AssetImage("assets/image/profile.jpg"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -90,16 +94,29 @@ class Home extends StatelessWidget {
                       style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                       )),
-                  accountEmail: Text("mohamedhassan@gmail.com"),
+                  accountEmail: Text("itsmohassan@gmail.com"),
                   currentAccountPictureSize: Size.square(85),
                   currentAccountPicture: CircleAvatar(
                     radius: 60,
-                    backgroundImage: AssetImage("assets/image/profile.jpg"),
+                    backgroundImage: AssetImage("assets/image/cover.webp"),
                   ),
                 ),
                 ListTile(
-                    title: Text("Home"),
-                    leading: Icon(Icons.home),
+                    title: Text("Profile"),
+                    leading: Icon(Icons.person),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()));
+                    }),
+                ListTile(
+                    title: Text(
+                      "Home",
+                    ),
+                    leading: Icon(
+                      Icons.home,
+                    ),
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Home()));
@@ -107,7 +124,10 @@ class Home extends StatelessWidget {
                 ListTile(
                     title: Text("My products"),
                     leading: Icon(Icons.add_shopping_cart),
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => CheckOut()));
+                    }),
                 ListTile(
                     title: Text("About"),
                     leading: Icon(Icons.help_center),
@@ -115,9 +135,8 @@ class Home extends StatelessWidget {
                 ListTile(
                     title: Text("Logout"),
                     leading: Icon(Icons.exit_to_app),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
                     }),
               ],
             ),
@@ -132,43 +151,9 @@ class Home extends StatelessWidget {
       ),
       appBar: AppBar(
         backgroundColor: bTNBlue,
-        title: Text("Home"),
+        title: Text("Home", style: TextStyle(color: Colors.white)),
         actions: [
-          Consumer<Cart>(builder: ((context, cart, child) {
-            return Row(
-              children: [
-                Stack(
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.add_shopping_cart_outlined),
-                      style: ButtonStyle(
-                          iconColor: MaterialStateProperty.all(Colors.white)),
-                    ),
-                    Positioned(
-                      child: Container(
-                          child: Text(
-                            "${cart.itemCount}",
-                            style: TextStyle(
-                              color: bTNBlue,
-                            ),
-                          ),
-                          padding: EdgeInsets.all(3.5),
-                          decoration: BoxDecoration(
-                              color: bTNgreen, shape: BoxShape.circle)),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 14),
-                  child: Text(
-                    "\$${cart.price}",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              ],
-            );
-          })),
+          ProductsAndPrice(),
         ],
       ),
     );

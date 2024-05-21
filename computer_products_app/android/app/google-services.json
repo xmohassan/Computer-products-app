@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "374924717009",
+    "project_id": "computer-products-app",
+    "storage_bucket": "computer-products-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374924717009:android:e1d32b643aa136ff344ef0",
+        "android_client_info": {
+          "package_name": "com.example.computer_products_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXXoPdSffgl1r6ULHGiErYst5Kn1vPNvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

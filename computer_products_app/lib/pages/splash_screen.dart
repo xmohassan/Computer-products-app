@@ -1,5 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:computer_products_app/pages/login.dart';
+import 'package:computer_products_app/pages/SignIn.dart';
 import 'package:computer_products_app/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -37,7 +37,7 @@ class SplashScreen extends StatelessWidget {
       nextScreen: const Login(),
       splashIconSize: 400,
       backgroundColor: bluee,
-      duration: 10000,
+      duration: 5000,
     );
   }
 }

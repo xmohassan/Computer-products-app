@@ -12,6 +12,12 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
+  remove(Item product) {
+    selectedProducts.remove(product);
+    price -= product.price.round();
+    notifyListeners();
+  }
+
   get itemCount {
     return selectedProducts.length;
   }

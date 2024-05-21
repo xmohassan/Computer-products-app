@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'package:computer_products_app/model/products.dart';
-import 'package:computer_products_app/provider/cart.dart';
+import 'package:computer_products_app/shared/appBar.dart';
 import 'package:computer_products_app/shared/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatefulWidget {
   Item product;
+
   DetailsScreen({required this.product});
 
   @override
@@ -19,6 +19,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        padding: EdgeInsets.only(left: 10, right: 10),
         child: Column(
           children: [
             Image.asset(widget.product.imagePath),
@@ -26,6 +27,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
               height: 11,
             ),
             Text("\$${widget.product.price}"),
+            SizedBox(
+              height: 16,
+            ),
+            Text(
+              widget.product.name,
+              style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
             SizedBox(
               height: 16,
             ),
@@ -99,7 +110,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
               child: Text(
                 "About this item:",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.start,
               ),
             ),
             SizedBox(
@@ -121,38 +131,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         backgroundColor: bTNBlue,
         title: Text("Details"),
         actions: [
-          Row(
-            children: [
-              Stack(
-                children: [
-                  Positioned(
-                    bottom: 20,
-                    child: Container(
-                        child: Text(
-                          "0",
-                          style: TextStyle(color: bTNBlue),
-                        ),
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            color: bTNgreen, shape: BoxShape.circle)),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.add_shopping_cart_outlined),
-                    style: ButtonStyle(
-                        iconColor: MaterialStateProperty.all(Colors.white)),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 14),
-                child: Text(
-                  "\$ 0.00",
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            ],
-          )
+          ProductsAndPrice(),
         ],
       ),
     );
